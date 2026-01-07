@@ -1,1 +1,29 @@
+from rental_vehicle import RentalVehicle
+from rental_manager import RentalManager
+
+def main():
+    manager = RentalManager()
+
+    manager.add_vehicle(RentalVehicle("34ABC123", "Compact", 500, 5))
+    manager.add_vehicle(RentalVehicle("06XYZ789", "SUV", 800, 7))
+
+    print("Available Vehicles:")
+    manager.list_vehicles()
+
+    request = manager.create_request("Compact")
+    print("\nCreated:", request)
+
+    contract = manager.create_contract(request, days=3)
+
+    if contract:
+        print("\nContract created successfully:")
+        print(contract)
+    else:
+        print("\nNo available vehicle for this request.")
+
+    print("\nVehicle Status After Rental:")
+    manager.list_vehicles()
+
+if __name__ == "__main__":
+    main()
 
