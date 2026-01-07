@@ -1,1 +1,25 @@
+from datetime import timedelta
+
+class RentalContract:
+    """
+    Represents a rental agreement between a request and a vehicle.
+    """
+
+    _next_contract_number = 1
+
+    def __init__(self, request_number: int, plate_number: str, days: int):
+        self.contract_number = RentalContract._next_contract_number
+        RentalContract._next_contract_number += 1
+
+        self.request_number = request_number
+        self.plate_number = plate_number
+        self.rental_period = timedelta(days=days)
+
+    def __str__(self):
+        return (
+            f"Contract #{self.contract_number} | "
+            f"Request: {self.request_number} | "
+            f"Vehicle: {self.plate_number} | "
+            f"Days: {self.rental_period.days}"
+        )
 
