@@ -1,29 +1,87 @@
-from Rental_Vehicle import RentalVehicle
-from Rental_Manager import RentalManager
+from rental_vehicle import RentalVehicle
+from rental_manager import RentalManager
+
+
+def show_menu():
+    print("\n=== Vehicle Rental System ===")
+    print("1. List all vehicles")
+    print("2. Request a vehicle")
+    print("3. Rent a vehicle (create contract)")
+    print("4. List rental contracts")
+    print("5. Exit")
+
 
 def main():
     manager = RentalManager()
 
+    # Add vehicles (sample data)
     manager.add_vehicle(RentalVehicle("34ABC123", "Compact", 500, 5))
-    manager.add_vehicle(RentalVehicle("06XYZ789", "SUV", 800, 7))
+    manager.add_vehicle(RentalVehicle("34DEF456", "Compact", 520, 5))
+    manager.add_vehicle(RentalVehicle("06JKL321", "Sedan", 650, 6))
+    manager.add_vehicle(RentalVehicle("35PQR987", "SUV", 800, 7))
+    manager.add_vehicle(RentalVehicle("16VAN111", "Van", 900, 8))
 
-    print("Available Vehicles:")
-    manager.list_vehicles()
+    pending_requests = []
 
-    request = manager.create_request("Compact")
-    print("\nCreated:", request)
+    while True:
+        show_menu()
+        choice = input("Select an option (1-5): ")
 
-    contract = manager.create_contract(request, days=3)
+        if choice == "1":
+            print("\n--- Vehicles ---")
+            manager.list_vehicles()
 
-    if contract:
-        print("\nContract created successfully:")
-        print(contract)
-    else:
-        print("\nNo available vehicle for this request.")
+        elif choice == "2":
+            vehicle_type = input("Enter vehicle type (Compact / Sedan / SUV / Van): ")
+            request = manager.create_request(vehicle_type)
+            pending_requests.append(request)
+            print("Request created:", request)
 
-    print("\nVehicle Status After Rental:")
-    manager.list_vehicles()
+        elif choice == "3":
+            if not pending_requests:
+                print("No pending requests.")
+                continue
+
+            print("\nPending Requests:")
+            for r in pending_requests:
+                print(r)
+
+            try:
+                request_number = int(input("Enter request number: "))
+                days = int(input("Enter rental days: "))
+            except ValueError:
+                print("Invalid input.")
+                continue
+
+            request = next(
+                (r for r in pending_requests if r.request_number == request_number),
+                None
+            )
+
+            if not request:
+                print("Request not found.")
+                continue
+
+            contract = manager.create_contract(request, days)
+
+            if contract:
+                print("Contract created successfully:")
+                print(contract)
+                pending_requests.remove(request)
+            else:
+                print("No available vehicle for this request.")
+
+        elif choice == "4":
+            print("\n--- Active Contracts ---")
+            manager.list_contracts()
+
+        elif choice == "5":
+            print("Exiting application.")
+            break
+
+        else:
+            print("Invalid choice. Please select 1-5.")
+
 
 if __name__ == "__main__":
     main()
-
