@@ -1,5 +1,5 @@
-from rental_vehicle import RentalVehicle
-from rental_manager import RentalManager
+from Rental_Vehicle import RentalVehicle
+from Rental_Manager import RentalManager
 
 def main():
     manager = RentalManager()
