@@ -1,1 +1,19 @@
+from datetime import datetime
+
+class RentalRequest:
+    """
+    Represents a customer's request for renting a vehicle.
+    """
+
+    _next_request_number = 1
+
+    def __init__(self, requested_type: str):
+        self.request_number = RentalRequest._next_request_number
+        RentalRequest._next_request_number += 1
+
+        self.requested_type = requested_type
+        self.request_time = datetime.now()
+
+    def __str__(self):
+        return f"Request #{self.request_number} - Type: {self.requested_type}"
 
