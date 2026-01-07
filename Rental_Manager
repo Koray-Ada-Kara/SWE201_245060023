@@ -1,1 +1,43 @@
+from rental_vehicle import RentalVehicle
+from rental_request import RentalRequest
+from rental_contract import RentalContract
+
+class RentalManager:
+    """
+    Handles the operations of the rental system.
+    """
+
+    def __init__(self):
+        self.vehicles = []
+        self.requests = []
+        self.contracts = []
+
+    def add_vehicle(self, vehicle: RentalVehicle):
+        self.vehicles.append(vehicle)
+
+    def create_request(self, vehicle_type: str) -> RentalRequest:
+        request = RentalRequest(vehicle_type)
+        self.requests.append(request)
+        return request
+
+    def create_contract(self, request: RentalRequest, days: int):
+        for vehicle in self.vehicles:
+            if vehicle.vehicle_type == request.requested_type and not vehicle.is_rented:
+                vehicle.rent()
+                contract = RentalContract(
+                    request.request_number,
+                    vehicle.plate_number,
+                    days
+                )
+                self.contracts.append(contract)
+                return contract
+        return None
+
+    def list_vehicles(self):
+        for v in self.vehicles:
+            print(v)
+
+    def list_contracts(self):
+        for c in self.contracts:
+            print(c)
 
