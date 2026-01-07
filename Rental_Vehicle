@@ -1,1 +1,27 @@
+class RentalVehicle:
+    """
+    Represents a vehicle owned by the rental company.
+    """
+
+    def __init__(self, plate_number: str, vehicle_type: str,
+                 daily_rate: float, kilometer_rate: float):
+        self._plate_number = plate_number
+        self.vehicle_type = vehicle_type
+        self.daily_rate = daily_rate
+        self.kilometer_rate = kilometer_rate
+        self.is_rented = False
+
+    @property
+    def plate_number(self):
+        return self._plate_number
+
+    def rent(self):
+        self.is_rented = True
+
+    def return_vehicle(self):
+        self.is_rented = False
+
+    def __str__(self):
+        status = "Rented" if self.is_rented else "Available"
+        return f"{self.plate_number} ({self.vehicle_type}) - {status}"
 
